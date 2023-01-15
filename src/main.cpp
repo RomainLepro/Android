@@ -1,9 +1,12 @@
 #include <Arduino.h>
+#include "RADIO.h"
 
 String inputString = "";         // a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 bool changeLight = false;
 bool lightState = false;
+
+RADIO radio;
 
 void setup() {
   // put your setup code here, to run once:
@@ -18,7 +21,7 @@ void loop() {
   // put your main code here, to run repeatedly:
    // print the string when a newline arrives:
   delay(1000);
-  Serial.println("time is : 1234");
+  Serial.println("time is : " + String(millis()));
   if (stringComplete) {
     Serial.print("time is : ");
     Serial.print(millis());
