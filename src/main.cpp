@@ -11,6 +11,7 @@ RADIO radio;
 void setup() {
   // put your setup code here, to run once:
   pinMode(LED_BUILTIN, OUTPUT);
+  radio.init();
   // initialize serial:
   Serial.begin(115200);
   // reserve 200 bytes for the inputString:
@@ -18,10 +19,16 @@ void setup() {
 }
 
 void loop() {
+
+  radio.update();
+
   // put your main code here, to run repeatedly:
    // print the string when a newline arrives:
-  delay(1000);
-  Serial.println("time is : " + String(millis()));
+  //delay(100);
+  //Serial.println("time is : " + String(millis()));
+  radio.quickSerial(10);
+
+
   if (stringComplete) {
     Serial.print("time is : ");
     Serial.print(millis());
@@ -36,11 +43,10 @@ void loop() {
     Serial.println(inputString);
     changeLight = false;
     lightState = int(millis()/1000)%2;
-    digitalWrite(LED_BUILTIN, lightState);   // turn the LED on (HIGH is the voltage level)
-    
-    
+    digitalWrite(LED_BUILTIN, lightState);   // turn the LED on (HIGH is the voltage level) 
   }
 }
+
 
 void serialEvent() {
   while (Serial.available()) {

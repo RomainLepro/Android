@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define pin_radio 2 //the pin_radio of the receiver
+#define pin_radio 3 //the pin_radio of the receiver
 #define nb_channel 9
 #define RC_NUM_CHANNELS  6
 
@@ -19,15 +19,19 @@ class RADIO
     static uint8_t channel;
     int rc_values[nb_channel];
     static uint16_t rc_shared[nb_channel];
+    static bool interupted;
     float Ox = 0,Oy = 0,Oz = 0,Throtle = 0;
     float Gx = 0,Gy = 0,Gz = 0; 
     int A=1;
     float B=0;
     static uint32_t t; 
     uint32_t tSerial = 0;
+    uint32_t tQuickSerial = 0;
     bool errorState = true;//if some of the value from the channels are out of bound => errorState = true
 
     void showSerial(int dt = 500);
+
+    void quickSerial(int dt = 10);
 
     void init() {
         pinMode(pin_radio,INPUT);

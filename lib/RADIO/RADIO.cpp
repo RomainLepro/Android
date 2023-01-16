@@ -13,9 +13,26 @@ void RADIO::update(){
 void RADIO::showSerial(int dt){
     
     if (millis()>tSerial+dt){
-        tSerial = millis();
-        Serial.println("--Ox----Oy----Oz----Throtle----A----B-- ");
+        
+        Serial.println("--Ox----Oy----Oz----Throtle----A----B--HEALTH----dt");
         Serial.print(Ox);Serial.print(" / ");Serial.print(Oy);Serial.print(" / ");Serial.print(Oz);Serial.print(" / ");
-        Serial.print(Throtle);Serial.print(" / ");Serial.print(A);Serial.print(" / ");Serial.println(B);
-    }
+        Serial.print(Throtle);Serial.print(" / ");Serial.print(A);Serial.print(" / ");Serial.print(B);
+        Serial.print(" / ");Serial.print(health);Serial.print(" / ");Serial.println(millis()-tSerial);
+        tSerial = millis();
+    }   
+}
+
+void RADIO::quickSerial(int dt){
+    
+    if (millis()>tQuickSerial+dt){
+        
+        Serial.print("ox:");Serial.print(int(Ox*10));
+        Serial.print(";oy:");Serial.print(int(Oy*10));
+        Serial.print(";oz:");Serial.print(int(Oz*10));
+        Serial.print(";th:");Serial.print(int(Throtle*10));
+        Serial.print(";sa:");Serial.print(int(A*10));
+        Serial.print(";sb:");Serial.print(int(B*10));
+        Serial.print(";he:");Serial.println(int(health*10));
+        tQuickSerial = millis();
+    }   
 }
