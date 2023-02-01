@@ -22,17 +22,47 @@ void RADIO::showSerial(int dt){
     }   
 }
 
+
+
+int filter(float angle)
+{
+// take a float between -50 and +50
+// and make it between 0 and 999
+    return max(0,min(int(angle*10)+500,999));
+
+}
+
 void RADIO::quickSerial(int dt){
     
     if (millis()>tQuickSerial+dt){
         
-        Serial.print("ox:");Serial.print(int(Ox*10));
-        Serial.print(";oy:");Serial.print(int(Oy*10));
-        Serial.print(";oz:");Serial.print(int(Oz*10));
-        Serial.print(";th:");Serial.print(int(Throtle*10));
-        Serial.print(";sa:");Serial.print(int(A*10));
-        Serial.print(";sb:");Serial.print(int(B*10));
-        Serial.print(";he:");Serial.println(int(health*10));
+                          Serial.print(filter(Ox));
+        Serial.print(";");Serial.print(filter(Oy));
+        Serial.print(";");Serial.print(filter(Oz));
+        Serial.print(";");Serial.print(filter(Throtle));
+        Serial.print(";");Serial.print(filter(A));
+        Serial.print(";");Serial.print(filter(B));
+        Serial.print(";");Serial.print(filter(health*10-50));
+        Serial.print(";");Serial.println(filter(int((millis()/200)%100)-50));
+        Serial.println(";");
+        tQuickSerial = millis();
+    }   
+}
+
+
+void RADIO::quickSerialDebug(int dt,int data){
+    
+    if (millis()>tQuickSerial+dt){
+        
+                          Serial.print(filter(Ox));
+        Serial.print(";");Serial.print(500);
+        Serial.print(";");Serial.print(600);
+        Serial.print(";");Serial.print(700);
+        Serial.print(";");Serial.print(800);
+        Serial.print(";");Serial.print(900);
+        Serial.print(";");Serial.print(filter(int((millis()/200)%100)-50));
+        Serial.print(";");Serial.print(data);
+        Serial.println(";");
         tQuickSerial = millis();
     }   
 }

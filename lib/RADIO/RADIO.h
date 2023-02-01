@@ -32,6 +32,7 @@ class RADIO
     void showSerial(int dt = 500);
 
     void quickSerial(int dt = 10);
+    void quickSerialDebug(int dt = 10,int data = 999);
 
     void init() {
         pinMode(pin_radio,INPUT);
