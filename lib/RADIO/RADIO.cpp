@@ -43,7 +43,7 @@ void RADIO::quickSerial(int dt){
         Serial.print(";");Serial.print(filter(A));
         Serial.print(";");Serial.print(filter(B));
         Serial.print(";");Serial.print(filter(health*10-50));
-        Serial.print(";");Serial.println(filter(int((millis()/200)%100)-50));
+        Serial.print(";");Serial.print(filter(int((millis()/200)%100)-50));
         Serial.println(";");
         tQuickSerial = millis();
     }   

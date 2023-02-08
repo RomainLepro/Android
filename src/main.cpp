@@ -16,7 +16,7 @@ RADIO radio;
 
 //3,5,6,9,10,11
 Servo myServos[myServosLength];//all servos
-const int L_pin_servos[myServosLength] = {3,4,5,6,7,8,9,10};
+const int L_pin_servos[myServosLength] = {4,5,6,7,8,9,10,11};
 const String L_name_servos[myServosLength] = {"S1","S2","S3","S4","S5","S6","S7","S8"};
 String Lstring[myServosLength] = {"9","8","7","6","5","4","3","2"};
 int index = 0;
@@ -88,11 +88,12 @@ void stringToServos(String order)
 void loop() {
 
   radio.update();
-  radio.quickSerialDebug(10,Lstring[0].toInt());
+  radio.quickSerial(10);
 
-  myServos[0].write(Lstring[0].toFloat() / 500.f * 90.f);
-  myServos[1].write(Lstring[0].toFloat() / 500.f * 90.f);
-  myServos[2].write(Lstring[0].toFloat() / 500.f * 90.f);
+  for(int i = 0;i<myServosLength;i++)
+  {
+    myServos[i].write(Lstring[i].toFloat() / 500.f * 90.f);
+  }
 
   if (stringComplete) {
     //send back data received

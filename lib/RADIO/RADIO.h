@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "SPI.h"
 
-#define pin_radio 2 //the pin_radio of the receiver
+#define pin_radio 3 //the pin_radio of the receiver
 #define nb_channel 9
 #define RC_NUM_CHANNELS  6
 
