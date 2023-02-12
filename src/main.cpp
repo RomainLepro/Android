@@ -6,9 +6,9 @@
 //#define DEBUG
 
 String inputString = "";         // a String to hold incoming data
-bool stringComplete = false;  // whether the string is complete
 bool changeLight = false;
 bool lightState = false;
+int a = 0;
 
 #define myServosLength 8
 
@@ -20,6 +20,7 @@ const int L_pin_servos[myServosLength] = {4,5,6,7,8,9,10,11};
 const String L_name_servos[myServosLength] = {"S1","S2","S3","S4","S5","S6","S7","S8"};
 String Lstring[myServosLength] = {"9","8","7","6","5","4","3","2"};
 int index = 0;
+uint32_t t_update = 0;
 
 
 
@@ -90,15 +91,29 @@ void loop() {
   radio.update();
   radio.quickSerial(10);
 
-  for(int i = 0;i<myServosLength;i++)
-  {
-    myServos[i].write(Lstring[i].toFloat() / 500.f * 90.f);
+  if(millis() - t_update < 100)
+  { // normal update
+    for(int i = 0;i<myServosLength;i++)
+    {
+        myServos[i].write(Lstring[i].toFloat() / 500.f * 90.f);
+    }
   }
-
-  if (stringComplete) {
-    //send back data received
-    stringToServos(inputString);
-    stringComplete = false;
+  else
+  {
+    a++;
+    myServos[0].write(90+radio.Ox);
+    myServos[1].write(90+radio.Oy);
+    myServos[2].write(90+radio.Oz);
+    myServos[3].write(90+radio.Throtle);
+    myServos[4].write(90+radio.Throtle);
+    myServos[5].write(90+radio.A);
+    myServos[5].write(90+radio.B);
+    if(a>50)
+    {
+      a = 0;
+      Serial.print("time last completion : ");
+      Serial.println(millis() - t_update);
+    }
   }
 
 }
@@ -120,6 +135,7 @@ void serialEvent() {
     else if (inChar == '\n') {
       index = 0;
       inputString = "";
+      t_update = millis();
     }
   }
 }
