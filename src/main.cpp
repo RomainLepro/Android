@@ -8,7 +8,7 @@
 String inputString = "";         // a String to hold incoming data
 bool changeLight = false;
 bool lightState = false;
-int a = 0;
+int compteurSerial = 0;
 
 #define myServosLength 8
 
@@ -95,22 +95,27 @@ void loop() {
   { // normal update
     for(int i = 0;i<myServosLength;i++)
     {
-        myServos[i].write(Lstring[i].toFloat() / 500.f * 90.f);
+      float value = Lstring[i].toFloat() / 500.f;
+      //by default, throtle goes between 40 and 140
+      value = (value-1)*60 +90;
+      value = max(40,value);
+      value = min(140,value);
+      myServos[i].write(value);
     }
   }
   else
   {
-    a++;
+    compteurSerial++;
     myServos[0].write(90+radio.Ox);
     myServos[1].write(90+radio.Oy);
     myServos[2].write(90+radio.Oz);
-    myServos[3].write(90+radio.Throtle);
-    myServos[4].write(90+radio.Throtle);
+    myServos[3].write(90+radio.Throtle+radio.Oz/2);
+    myServos[4].write(90+radio.Throtle-radio.Oz/2);
     myServos[5].write(90+radio.A);
-    myServos[5].write(90+radio.B);
-    if(a>50)
+    myServos[6].write(90+radio.B);
+    if(compteurSerial>50)
     {
-      a = 0;
+      compteurSerial = 0;
       Serial.print("time last completion : ");
       Serial.println(millis() - t_update);
     }
