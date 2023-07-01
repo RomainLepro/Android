@@ -98,8 +98,11 @@ void loop() {
       float value = Lstring[i].toFloat() / 500.f;
       //by default, throtle goes between 40 and 140
       value = (value-1)*60 +90;
-      value = max(40,value);
-      value = min(140,value);
+      if(i == 2 || i == 3)
+      {
+        value = max(40,value);
+        value = min(140,value);
+      }
       myServos[i].write(value);
     }
   }
@@ -108,9 +111,9 @@ void loop() {
     compteurSerial++;
     myServos[0].write(90+radio.Ox);
     myServos[1].write(90+radio.Oy);
-    myServos[2].write(90+radio.Oz);
-    myServos[3].write(90+radio.Throtle+radio.Oz/2);
-    myServos[4].write(90+radio.Throtle-radio.Oz/2);
+    myServos[2].write(90+radio.Throtle+radio.Oz/2);
+    myServos[3].write(90+radio.Throtle-radio.Oz/2);
+    myServos[4].write(90+radio.Oz);
     myServos[5].write(90+radio.A);
     myServos[6].write(90+radio.B);
     if(compteurSerial>50)
